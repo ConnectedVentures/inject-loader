@@ -66,10 +66,13 @@ function __createInjectorFunction(_ref, source, configOptions) {
           var message = 'One or more of the injections you passed in is invalid for the module you are attempting to inject into.\n\n- Valid injection targets for this module are: ' + __wrappedModuleDependencies.join(' ') + '\n- The following injections were passed in:     ' + injectionKeys.join(' ') + '\n- The following injections are invalid:        ' + invalidInjectionKeys.join(' ') + '\n';
 
           switch (options.validate) {
-            case "error":
-              throw new Error(message);
             case "warning":
               console.warn(message);
+            case "ignore":
+
+            default:
+              throw new Error(message);
+
           }
         }
       })();
@@ -91,7 +94,7 @@ function __createInjectorFunction(_ref, source, configOptions) {
     /*!************************************************************************/
 
     if (options.exportInjected) {
-      if (module.exports.__esModule) {
+      if (module.exports.__esModule && module.exports.default) {
         module.exports.default.__injected__ = __injected__;
       } else {
         module.exports.__injected__ = __injected__;

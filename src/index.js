@@ -69,10 +69,13 @@ function __createInjectorFunction({ query, resourcePath }: WebpackContext, sourc
 `
 
           switch (options.validate) {
-            case "error":
-              throw new Error(message)
             case "warning":
               console.warn(message)
+            case "ignore":
+                          
+            default:
+              throw new Error(message)
+
           }
         }
       })();
@@ -94,7 +97,7 @@ function __createInjectorFunction({ query, resourcePath }: WebpackContext, sourc
     /*!************************************************************************/
 
     if (options.exportInjected) {
-      if (module.exports.__esModule) {
+      if (module.exports.__esModule && module.exports.default) {
         module.exports.default.__injected__ = __injected__
       } else {
         module.exports.__injected__ = __injected__
